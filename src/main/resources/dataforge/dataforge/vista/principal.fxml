@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="dataforge.dataforge.controlador.PrincipalController"
+            prefWidth="1200"
+            prefHeight="800"
+            minWidth="1000"
+            minHeight="650"
+            stylesheets="@../estilos/estilos.css">
+
+    <!-- CABECERA -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              styleClass="cabecera">
+            <padding>
+                <Insets top="12" right="20" bottom="12" left="20"/>
+            </padding>
+
+            <Label text="DATAFORGE" styleClass="titulo-principal"/>
+            <Label text="| Gestión de procesos externos"
+                   styleClass="subtitulo"/>
+        </HBox>
+    </top>
+
+    <!-- CONTENIDO -->
+    <center>
+        <GridPane hgap="15" vgap="10">
+            <padding>
+                <Insets top="12" right="15" bottom="12" left="15"/>
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth="43"
+                                   hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="57"
+                                   hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <!-- COLUMNA IZQUIERDA -->
+            <VBox spacing="10" GridPane.columnIndex="0">
+
+                <!-- CONFIGURACIÓN -->
+                <VBox spacing="8" styleClass="panel">
+                    <Label text="Configuración"
+                           styleClass="titulo-seccion"/>
+
+                    <GridPane hgap="8" vgap="5">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+
+                        <Label text="Límite de números"
+                               GridPane.rowIndex="0"
+                               GridPane.columnIndex="0"/>
+
+                        <Label text="Cantidad de procesos"
+                               GridPane.rowIndex="0"
+                               GridPane.columnIndex="1"/>
+
+                        <TextField fx:id="campoLimite"
+                                   promptText="Ej. 100000"
+                                   GridPane.rowIndex="1"
+                                   GridPane.columnIndex="0"/>
+
+                        <TextField fx:id="campoCantidad"
+                                   promptText="Ej. 5"
+                                   GridPane.rowIndex="1"
+                                   GridPane.columnIndex="1"/>
+                    </GridPane>
+
+                    <Label text="Palabra a buscar"/>
+                    <TextField fx:id="campoPalabra"
+                               promptText="Ej. Java"/>
+                </VBox>
+
+                <!-- EJECUCIONES -->
+                <VBox spacing="8" styleClass="panel">
+                    <Label text="Ejecución de procesos"
+                           styleClass="titulo-seccion"/>
+
+                    <GridPane hgap="8" vgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+
+                        <Button fx:id="btnIndividual"
+                                text="Individual"
+                                maxWidth="Infinity"
+                                onAction="#ejecutarIndividual"
+                                styleClass="boton-principal"
+                                GridPane.rowIndex="0"
+                                GridPane.columnIndex="0"/>
+
+                        <Button fx:id="btnSecuencial"
+                                text="Secuencial"
+                                maxWidth="Infinity"
+                                onAction="#ejecutarSecuencial"
+                                styleClass="boton-principal"
+                                GridPane.rowIndex="0"
+                                GridPane.columnIndex="1"/>
+
+                        <Button fx:id="btnParalelo"
+                                text="Paralelo"
+                                maxWidth="Infinity"
+                                onAction="#ejecutarParalelo"
+                                styleClass="boton-principal"
+                                GridPane.rowIndex="1"
+                                GridPane.columnIndex="0"/>
+
+                        <Button fx:id="btnPipeline"
+                                text="Pipeline"
+                                maxWidth="Infinity"
+                                onAction="#ejecutarPipeline"
+                                styleClass="boton-principal"
+                                GridPane.rowIndex="1"
+                                GridPane.columnIndex="1"/>
+
+                        <Button fx:id="btnDetener"
+                                text="Detener proceso"
+                                maxWidth="Infinity"
+                                onAction="#detenerProceso"
+                                styleClass="boton-peligro"
+                                GridPane.rowIndex="2"
+                                GridPane.columnIndex="0"
+                                GridPane.columnSpan="2"/>
+                    </GridPane>
+                </VBox>
+
+                <!-- TEXT ANALYZER -->
+                <VBox spacing="8" styleClass="panel">
+                    <Label text="TextAnalyzer"
+                           styleClass="titulo-seccion"/>
+
+                    <Label text="Analizar archivo"/>
+
+                    <HBox spacing="7" alignment="CENTER">
+                        <TextField fx:id="campoRutaArchivo"
+                                   promptText="Archivo .txt"
+                                   editable="false"
+                                   HBox.hgrow="ALWAYS"/>
+
+                        <Button text="Examinar"
+                                onAction="#seleccionarArchivo"/>
+
+                        <Button text="Analizar"
+                                onAction="#ejecutarTextAnalyzerFichero"
+                                styleClass="boton-principal"/>
+                    </HBox>
+
+                    <Separator/>
+
+                    <Label text="Analizar texto mediante STDIN"/>
+
+                    <TextArea fx:id="campoTextoEntrada"
+                              promptText="Escribe el texto que quieres analizar..."
+                              prefHeight="85"
+                              minHeight="65"
+                              maxHeight="85"
+                              wrapText="true"/>
+
+                    <Button text="Analizar texto"
+                            maxWidth="Infinity"
+                            onAction="#ejecutarTextAnalyzerStdin"
+                            styleClass="boton-principal"/>
+                </VBox>
+
+                <!-- REDIRECCIONES -->
+                <VBox spacing="8" styleClass="panel">
+                    <Label text="Redirección de salidas"
+                           styleClass="titulo-seccion"/>
+
+                    <GridPane hgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+
+                        <VBox spacing="5"
+                              GridPane.columnIndex="0">
+                            <Label text="STDOUT"/>
+                            <ComboBox fx:id="comboStdout"
+                                      promptText="Destino"
+                                      maxWidth="Infinity"/>
+                        </VBox>
+
+                        <VBox spacing="5"
+                              GridPane.columnIndex="1">
+                            <Label text="STDERR"/>
+                            <ComboBox fx:id="comboStderr"
+                                      promptText="Destino"
+                                      maxWidth="Infinity"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+
+            </VBox>
+
+            <!-- COLUMNA DERECHA -->
+            <VBox spacing="10" GridPane.columnIndex="1">
+
+                <!-- HISTORIAL -->
+                <VBox spacing="8" styleClass="panel"
+                      VBox.vgrow="ALWAYS">
+
+                    <Label text="Historial de ejecuciones"
+                           styleClass="titulo-seccion"/>
+
+                    <TableView fx:id="tablaProcesos"
+                               VBox.vgrow="ALWAYS"
+                               prefHeight="330"
+                               minHeight="250">
+
+                        <columns>
+                            <TableColumn fx:id="colId" text="ID" />
+                            <TableColumn fx:id="colPid" text="PID" />
+                            <TableColumn fx:id="colTarea" text="Tarea" />
+                            <TableColumn fx:id="colModo" text="Modo" />
+                            <TableColumn fx:id="colEstado" text="Estado" />
+                            <TableColumn fx:id="colInicio" text="Inicio" />
+                            <TableColumn fx:id="colFin" text="Fin" />
+                            <TableColumn fx:id="colDuracion" text="Duración" />
+                            <TableColumn fx:id="colCodigo" text="Código" />
+                        </columns>
+                    </TableView>
+
+                    <Label fx:id="etiquetaTiempoTotal"
+                           text="Tiempo total: -"
+                           styleClass="texto-tiempo"/>
+                </VBox>
+
+                <!-- RESULTADOS -->
+                <VBox spacing="8" styleClass="panel">
+                    <Label text="Resultados del proceso seleccionado"
+                           styleClass="titulo-seccion"/>
+
+                    <Label text="STDOUT - Salida estándar"/>
+
+                    <TextArea fx:id="areaStdout"
+                              editable="false"
+                              prefHeight="105"
+                              minHeight="75"
+                              maxHeight="105"
+                              wrapText="true"/>
+
+                    <Label text="STDERR - Salida de errores"/>
+
+                    <TextArea fx:id="areaStderr"
+                              editable="false"
+                              prefHeight="85"
+                              minHeight="65"
+                              maxHeight="85"
+                              wrapText="true"/>
+                </VBox>
+
+            </VBox>
+
+        </GridPane>
+    </center>
+
+</BorderPane>
